@@ -1,10 +1,9 @@
-
-import React from 'react';
-import { BackgroundBubbles } from './components/portfolio/BackgroundBubbles';
-import { Hero } from './components/portfolio/Hero';
-import { About } from './components/portfolio/About';
-import { Works } from './components/portfolio/Works';
-import { Contact } from './components/portfolio/Contact';
+import React from "react";
+import { BackgroundBubbles } from "./components/portfolio/BackgroundBubbles";
+import { Hero } from "./components/portfolio/Hero";
+import { About } from "./components/portfolio/About";
+import { Works } from "./components/portfolio/Works";
+import { Contact } from "./components/portfolio/Contact";
 
 function App() {
   return (

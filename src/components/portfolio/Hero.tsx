@@ -52,22 +52,11 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-xl md:text-2xl font-medium text-gray-600 mb-8 tracking-widest uppercase bg-white/50 backdrop-blur-sm px-4 py-2 rounded-full"
+          className="text-xl md:text-2xl font-medium text-gray-600 mb-8 tracking-widest uppercase"
           style={{ fontFamily: "'Poppins', sans-serif" }}
         >
           Front-end Developer
         </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
-          className="text-xl md:text-3xl text-gray-800 max-w-3xl font-light leading-relaxed bg-white/30 backdrop-blur-sm p-4 rounded-xl"
-          style={{ fontFamily: "'Poppins', sans-serif" }}
-        >
-          Crafting digital experiences where fluid design meets precision
-          engineering.
-        </motion.p>
       </motion.div>
 
       <motion.div

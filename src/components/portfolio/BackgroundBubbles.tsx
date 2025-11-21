@@ -35,12 +35,14 @@ interface Bubble {
 }
 
 const colors = [
-  "rgba(255, 182, 193, 0.8)", // Pink
-  "rgba(135, 206, 235, 0.8)", // Sky Blue
-  "rgba(221, 160, 221, 0.8)", // Plum
-  "rgba(255, 255, 153, 0.8)", // Yellow
-  "rgba(152, 251, 152, 0.8)", // Pale Green
-  "rgba(255, 159, 67, 0.8)", // Orange
+  "rgba(255, 182, 193, 0.9)", // Pink - increased opacity
+  "rgba(135, 206, 235, 0.9)", // Sky Blue - increased opacity
+  "rgba(221, 160, 221, 0.9)", // Plum - increased opacity
+  "rgba(255, 255, 153, 0.9)", // Yellow - increased opacity
+  "rgba(152, 251, 152, 0.9)", // Pale Green - increased opacity
+  "rgba(255, 159, 67, 0.9)", // Orange - increased opacity
+  "rgba(255, 105, 180, 0.9)", // Hot Pink - new color
+  "rgba(100, 149, 237, 0.9)", // Cornflower Blue - new color
 ];
 
 interface BackgroundBubblesProps {
@@ -59,12 +61,12 @@ export const BackgroundBubbles = ({ layer }: BackgroundBubblesProps) => {
       const newBubbles: Bubble[] = [];
       const isMobile = window.innerWidth < 768;
 
-      // Reduced number of bubbles for a cleaner look
+      // Slightly increased bubble count for better visibility
       let count;
       if (layer === "back") {
-        count = isMobile ? 15 : 25;
+        count = isMobile ? 8 : 15; // Slightly more back bubbles for depth
       } else {
-        count = isMobile ? 8 : 12;
+        count = isMobile ? 4 : 7; // Slightly more front bubbles for visibility
       }
 
       for (let i = 0; i < count; i++) {
@@ -74,8 +76,8 @@ export const BackgroundBubbles = ({ layer }: BackgroundBubblesProps) => {
           y: Math.random() * window.innerHeight,
           size:
             layer === "back"
-              ? Math.random() * 80 + 40
-              : Math.random() * 40 + 15,
+              ? Math.random() * 100 + 60 // Increased size range for back bubbles (60-160px)
+              : Math.random() * 50 + 20, // Increased size range for front bubbles (20-70px)
           color: colors[Math.floor(Math.random() * colors.length)],
           vx: (Math.random() - 0.5) * 0.15,
           vy: (Math.random() - 0.5) * 0.15,
@@ -106,22 +108,31 @@ export const BackgroundBubbles = ({ layer }: BackgroundBubblesProps) => {
     };
   }, [layer, width, height]);
 
-  // Physics loop
+  // Physics loop with smoother, more natural movement
   const updateBubbles = (timestamp: number) => {
     setBubbles((prevBubbles) => {
       return prevBubbles.map((b) => {
         let { x, y, vx, vy } = b;
 
-        const time = Date.now() * 0.001;
-        // More pronounced floating motion with increased base speed
-        vx += Math.sin(time * 0.2 + b.id * 0.1) * 0.0012 * b.speedFactor;
-        vy += Math.cos(time * 0.2 + b.id * 0.1) * 0.0012 * b.speedFactor;
+        const time = timestamp * 0.001; // Use the provided timestamp for smoother animation
+        const noise = (n: number) => 0.5 * Math.sin(n) + 0.5; // Normalized sine wave for smoother transitions
 
-        // Enhanced vertical drift for more noticeable movement
-        vy -=
-          0.01 *
-          b.speedFactor *
-          (0.8 + Math.sin(time * 0.15 + b.id * 0.5) * 0.3);
+        // Enhanced floating motion with more pronounced movement
+        const noiseX = noise(time * 0.18 + b.id * 0.5) * 2 - 1;
+        const noiseY = noise(time * 0.15 + b.id * 0.6) * 2 - 1;
+        const noiseZ = noise(time * 0.12 + b.id * 0.3) * 2 - 1;
+
+        // Size-based movement - larger bubbles move slower but more deliberately
+        const sizeFactor = 1 + b.size / 80; // Stronger size effect on movement
+
+        // More pronounced horizontal movement with size-based variation
+        vx += ((noiseX * 0.002 + noiseZ * 0.0008) * b.speedFactor) / sizeFactor;
+
+        // Stronger upward bias with smoother vertical movement
+        const verticalBias = -0.0006; // Increased upward force
+        vy +=
+          ((noiseY * 0.0012 + noiseZ * 0.0006 + verticalBias) * b.speedFactor) /
+          sizeFactor;
 
         // Interaction
         const dx = x - mouseRef.current.x;
@@ -138,21 +149,24 @@ export const BackgroundBubbles = ({ layer }: BackgroundBubblesProps) => {
           vy += Math.sin(angle) * force * pushStrength;
         }
 
-        // Increased max velocity for more dynamic, yet controlled movement
-        const maxV = layer === "front" ? 1.5 : 0.9;
-        const v = Math.sqrt(vx * vx + vy * vy);
-        if (v > maxV) {
-          vx = (vx / v) * maxV;
-          vy = (vy / v) * maxV;
-        }
-
-        // Apply velocity with slight easing
+        // Apply velocity with easing for smoother movement
         x += vx;
         y += vy;
 
-        // Slightly reduced friction for smoother movement
-        vx *= 0.96;
-        vy *= 0.96;
+        // Enhanced physics for more natural movement
+        const mass = 1 + b.size / 60; // Stronger size effect on inertia
+        vx *= 0.97; // Slightly less friction for smoother movement
+        vy *= 0.97;
+
+        // Adjusted speed limits for better visibility
+        const baseMaxSpeed = 1.1; // Increased for more noticeable movement
+        const sizeEffect = 0.5 * (1 - b.size / 180); // More pronounced size effect
+        const maxSpeed = baseMaxSpeed + sizeEffect; // Max 1.1-1.6
+        const speed = Math.sqrt(vx * vx + vy * vy);
+        if (speed > maxSpeed) {
+          vx = (vx / speed) * maxSpeed;
+          vy = (vy / speed) * maxSpeed;
+        }
 
         // Boundary wrapping
         const buffer = 100;
@@ -176,25 +190,29 @@ export const BackgroundBubbles = ({ layer }: BackgroundBubblesProps) => {
 
   const popBubble = (id: number) => {
     setBubbles((prev) => prev.filter((b) => b.id !== id));
-    // Respawn logic
+    // Smoother respawn logic with more natural starting positions
     setTimeout(() => {
       setBubbles((prev) => {
+        // Start bubbles just below the viewport with gentle upward motion
+        const startY = window.innerHeight + Math.random() * 100;
+        const startX = Math.random() * window.innerWidth;
+
         const newBubble: Bubble = {
           id: Date.now() + Math.random(),
-          x: Math.random() * window.innerWidth,
-          y: window.innerHeight + 50,
+          x: startX,
+          y: startY,
           size:
             layer === "back"
-              ? Math.random() * 80 + 40
-              : Math.random() * 40 + 15,
+              ? Math.random() * 60 + 30 // 30-90px for back layer
+              : Math.random() * 30 + 10, // 10-40px for front layer
           color: colors[Math.floor(Math.random() * colors.length)],
-          vx: (Math.random() - 0.5) * 0.2, // More noticeable horizontal movement
-          vy: -0.15 - Math.random() * 0.12, // Stronger upward push
-          speedFactor: 0.6 + Math.random() * 0.5, // Increased base speed factor for more movement
+          vx: (Math.random() - 0.5) * 0.1, // Gentler horizontal movement
+          vy: -0.05 - Math.random() * 0.1, // Slower, more controlled upward movement
+          speedFactor: 0.3 + Math.random() * 0.4, // More consistent speed range
         };
         return [...prev, newBubble];
       });
-    }, 800);
+    }, 1000 + Math.random() * 1000); // More random respawn timing
   };
 
   return (

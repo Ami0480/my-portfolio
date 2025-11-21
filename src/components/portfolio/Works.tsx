@@ -6,7 +6,32 @@ import {
   useTransform,
   MotionValue,
 } from "motion/react";
-import { ImageWithFallback } from "../figma/ImageWithFallback";
+
+const ImageWithFallback = ({ src, alt, className, style }: any) => {
+  const [imgSrc, setImgSrc] = useState(src);
+  const [isLoading, setIsLoading] = useState(true);
+
+  return (
+    <div className={`relative ${className}`}>
+      {isLoading && (
+        <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+      )}
+      <img
+        src={imgSrc}
+        alt={alt}
+        className={className}
+        style={style}
+        onLoad={() => setIsLoading(false)}
+        onError={() => {
+          setImgSrc(
+            "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=800"
+          );
+          setIsLoading(false);
+        }}
+      />
+    </div>
+  );
+};
 
 const words = [
   "HTML",
@@ -46,53 +71,58 @@ const positions = [
 ];
 
 const projects = [
+  // Large hero item (top left)
   {
     id: 1,
     title: "Minimal Portfolio",
     image:
       "https://images.unsplash.com/photo-1748483720632-9d385e40c331?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    className: "col-span-1 md:col-span-5 md:col-start-2 md:translate-y-0",
-    parallaxSpeed: 0.05,
+    className: "col-span-1 md:col-span-5 md:col-start-2 mt-12",
   },
+  // Medium item (top right)
   {
     id: 2,
     title: "E-commerce App",
     image:
       "https://images.unsplash.com/photo-1759505017950-25e0733b9e68?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    className: "col-span-1 md:col-span-4 md:col-start-8 md:-translate-y-24",
-    parallaxSpeed: -0.05,
+    className: "col-span-1 md:col-span-4 md:col-start-8 mt-24 p-2",
+    speed: -0.06,
   },
+  // Wide item (middle, full width)
   {
     id: 3,
     title: "Dashboard UI",
     image:
       "https://images.unsplash.com/photo-1735399976112-17508533c97a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    className: "col-span-1 md:col-span-6 md:col-start-1 md:translate-y-12",
-    parallaxSpeed: 0.08,
+    className: "col-span-1 md:col-span-4 md:col-start-3 mt-32",
+    parallaxSpeed: 0.15,
   },
+  // Medium vertical item (right side)
   {
     id: 4,
     title: "Creative Agency",
     image:
       "https://images.unsplash.com/photo-1762503203754-62c5a0c969d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    className: "col-span-1 md:col-span-4 md:col-start-8 md:translate-y-32",
-    parallaxSpeed: -0.03,
+    className: "col-span-1 md:col-span-6 md:col-start-9 mt-64",
+    parallaxSpeed: 0.07,
   },
+  // Small square (left side)
   {
     id: 5,
-    title: "Typography System",
+    title: "Typography",
     image:
       "https://images.unsplash.com/photo-1738003667850-a2fb736e31b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    className: "col-span-1 md:col-span-4 md:col-start-4 md:-translate-y-10",
-    parallaxSpeed: 0.04,
+    className: "col-span-1 md:col-span-4 md:col-start-2 mt-48 p-3",
+    parallaxSpeed: 0.06,
   },
+  // Medium horizontal (bottom center)
   {
     id: 6,
     title: "Mobile Finance",
     image:
       "https://images.unsplash.com/photo-1760597371674-c5a412f2ae01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    className: "col-span-1 md:col-span-4 md:col-start-9 md:translate-y-20",
-    parallaxSpeed: 0.06,
+    className: "col-span-1 md:col-span-4 md:col-start-8 mt-96",
+    parallaxSpeed: 0.05,
   },
 ];
 
@@ -103,11 +133,97 @@ const ProjectItem = ({
   project: any;
   scrollYProgress: MotionValue<number>;
 }) => {
+  // Enhanced parallax with refined speed differences for better visual hierarchy
+  const getParallaxConfig = (className: string, id: number, title?: string) => {
+    // Base speed differences with more pronounced variation
+    let baseSpeed = 0.5;
+    if (className.includes("md:col-span-6"))
+      baseSpeed = 0.1; // Largest items move slowest
+    else if (className.includes("md:col-span-5")) baseSpeed = 0.25;
+    else if (className.includes("md:col-span-4")) baseSpeed = 0.4;
+
+    // More significant variation based on project ID
+    const idVariation = (id % 5) * 0.1;
+
+    // Alternate direction and add some randomness
+    const direction = id % 2 === 0 ? 1 : -1;
+
+    // Custom speeds for specific projects
+    if (title === "Minimal Portfolio") {
+      return {
+        speed: 0.15, // Slower speed for better visibility
+        direction: 1, // Consistent upward direction
+        scale: 1.2, // Slightly larger
+      };
+    }
+
+    if (title === "E-commerce App") {
+      return {
+        speed: 0.5, // Medium-fast speed
+        direction: -1,
+        scale: 1.1,
+      };
+    }
+
+    if (title === "Dashboard UI") {
+      return {
+        speed: 0.25, // Medium speed
+        direction: -1, // Opposite direction for contrast
+        scale: 1.1,
+      };
+    }
+
+    if (title === "Creative Agency") {
+      return {
+        speed: 2.5,
+        direction: -1,
+        scale: 1.15,
+      };
+    }
+
+    if (title === "Typography") {
+      return {
+        speed: 0.6, // Medium-fast speed
+        direction: 1,
+        scale: 1.2,
+      };
+    }
+
+    if (title === "Mobile Finance") {
+      return {
+        speed: 0.4, // Medium speed
+        direction: -1,
+        scale: 1.1,
+      };
+    }
+
+    return {
+      speed: (baseSpeed + idVariation) * 1.5,
+      direction,
+      scale: 1 + (1 - baseSpeed) * 0.4,
+    };
+  };
+
+  const { speed, direction, scale } = getParallaxConfig(
+    project.className,
+    project.id,
+    project.title
+  );
+
+  // Parallax movement for cards only (bidirectional)
   const y = useTransform(
     scrollYProgress,
-    [0, 1],
-    [0, project.parallaxSpeed * 1000]
+    [0, 0.5, 1],
+    [-100 * speed * direction, 0, 100 * speed * direction]
   );
+
+  // Add subtle opacity change based on scroll position
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 0.3, 0.7, 1],
+    [0.8, 1, 1, 0.8]
+  );
+
   const [hoverData, setHoverData] = useState<{
     text: string;
     color: string;
@@ -132,18 +248,34 @@ const ProjectItem = ({
 
   return (
     <motion.div
-      style={{ y }}
+      style={{
+        y,
+        opacity,
+        zIndex: Math.round(100 * (1 - speed)), // Ensure proper stacking
+      }}
       initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: 0.8,
+          delay: 0.1 * (1 - speed), // Staggered appearance based on size
+        },
+      }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8 }}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{
+        scale: 1.02,
+        transition: { duration: 0.3 },
+      }}
+      whileTap={{
+        scale: 0.98,
+        transition: { duration: 0.2 },
+      }}
       className={`group cursor-pointer ${project.className} relative z-20`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 shadow-md hover:shadow-xl transition-all duration-500 relative z-20">
+      <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 shadow-md hover:shadow-xl transition-all duration-700 relative z-20 will-change-transform transform-gpu">
         <ImageWithFallback
           src={project.image}
           alt={project.title}
@@ -200,7 +332,7 @@ const ProjectItem = ({
           )}
         </AnimatePresence>
       </div>
-      <div className="mt-4 text-center bg-white/80 backdrop-blur-sm py-2 rounded-lg inline-block px-4 mx-auto w-full">
+      <div className="mt-6 text-center inline-block px-4 mx-auto w-full relative z-30">
         <h3
           className="text-lg font-semibold text-gray-900"
           style={{ fontFamily: "'Poppins', sans-serif" }}
@@ -229,10 +361,7 @@ export const Works = () => {
   const marqueeY = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   return (
-    <section
-      ref={containerRef}
-      className="min-h-screen relative py-32 overflow-hidden"
-    >
+    <section ref={containerRef} className="min-h-[220vh] relative pt-48 pb-80">
       {/* Background Marquee that moves with scroll */}
       <div className="absolute top-0 w-full left-0 h-full flex flex-col justify-center z-0 pointer-events-none select-none overflow-hidden">
         <motion.div style={{ y: marqueeY, zIndex: 0 }}>
@@ -265,8 +394,8 @@ export const Works = () => {
         </motion.div>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-y-32">
+      <div className="container mx-auto px-6 relative z-10 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-y-48">
           {projects.map((project) => (
             <ProjectItem
               key={project.id}
