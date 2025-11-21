@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 
+import ProfilePhoto from "../images/portfolio-photo.png";
+
 export const About = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -64,7 +66,7 @@ export const About = () => {
                 }}
               >
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1696960181436-1b6d9576354e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+                  src={ProfilePhoto}
                   alt="Ami Portrait"
                   className="w-full h-full object-cover"
                 />
@@ -85,7 +87,7 @@ export const About = () => {
             </motion.h2>
 
             <div
-              className="space-y-8 text-lg md:text-xl text-gray-700 leading-relaxed font-light"
+              className="space-y-8 text-lg md:text-lg text-gray-700 leading-relaxed font-light"
               style={{ fontFamily: "'Poppins', sans-serif" }}
             >
               <motion.p
@@ -94,9 +96,8 @@ export const About = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 }}
               >
-                Hi, I'm Ami. I create digital experiences that are as functional
-                as they are beautiful. I believe the web should be fun, fluid,
-                and friendly.
+                Hi, I'm Ami Fukuyama, originally from Himeji, Japan, and I've
+                been living in Australia for over 10 years.
               </motion.p>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -104,9 +105,12 @@ export const About = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
               >
-                My work sits at the intersection of design and engineering. I
-                love experimenting with motion, interaction, and generative art
-                to bring static interfaces to life.
+                After a career in beauty therapy and management, I discovered a
+                passion for tech and problem-solving. I'm learning programming
+                through SheCodes, focusing on front-end development while
+                exploring back-end to become a full-stack developer. I'm also
+                interested in Vibe Coding and creative tools that make web
+                development more dynamic.
               </motion.p>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -114,8 +118,11 @@ export const About = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 }}
               >
-                When I'm not coding, you can find me exploring new coffee shops
-                or sketching out new ideas for my next creative coding project.
+                I'm open to on-site and remote opportunities and excited to
+                contribute to projects where I can grow. Outside of work, I love
+                traveling and exploring the history of different countries,
+                having visited over 20 so far. I also enjoy sharing my stories
+                and experiences through my projects.
               </motion.p>
             </div>
           </div>

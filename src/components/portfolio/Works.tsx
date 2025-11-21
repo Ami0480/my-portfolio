@@ -38,16 +38,11 @@ const words = [
   "CSS",
   "React",
   "Tailwind",
-  "Framer",
   "Figma",
-  "Next.js",
   "Three.js",
-  "Canvas",
-  "WebGL",
+  "Canva",
   "GSAP",
-  "Design",
-  "UI/UX",
-  "A11y",
+  "Vibe Coding",
 ];
 
 const colors = [

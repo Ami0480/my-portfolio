@@ -1,5 +1,5 @@
 import React from "react";
-import { Github, Linkedin, Mail, Phone, Twitter } from "lucide-react";
+import { Github, Linkedin, Mail, FileText, Twitter } from "lucide-react";
 import { motion } from "motion/react";
 
 export const Contact = () => {
@@ -45,19 +45,34 @@ export const Contact = () => {
         {/* Icons */}
         <div className="flex items-center gap-6">
           <SocialLink
-            href="tel:+1234567890"
-            icon={<Phone size={20} />}
-            label="Phone"
-          />
-          <SocialLink
-            href="mailto:hello@ami.dev"
+            href="mailto:amifuku80@gmail.com"
             icon={<Mail size={20} />}
             label="Email"
           />
+          <SocialLink
+            href="/resume.pdf"
+            icon={<FileText size={20} />}
+            label="Resume"
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+
           <div className="w-px h-6 bg-gray-300 mx-2 hidden md:block"></div>
-          <SocialLink href="#" icon={<Linkedin size={20} />} label="LinkedIn" />
-          <SocialLink href="#" icon={<Github size={20} />} label="GitHub" />
-          <SocialLink href="#" icon={<Twitter size={20} />} label="X" />
+          <SocialLink
+            href="https://www.linkedin.com/in/amifukuyama/"
+            icon={<Linkedin size={20} />}
+            label="LinkedIn"
+          />
+          <SocialLink
+            href="https://github.com/Ami0480"
+            icon={<Github size={20} />}
+            label="GitHub"
+          />
+          <SocialLink
+            href="https://x.com/CodeCrafty"
+            icon={<Twitter size={20} />}
+            label="X"
+          />
         </div>
       </div>
 
