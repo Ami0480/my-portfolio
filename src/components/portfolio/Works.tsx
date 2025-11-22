@@ -7,6 +7,13 @@ import {
   MotionValue,
 } from "motion/react";
 
+import FindRecipes from "../images/findrecipes-image.png";
+import MDB from "../images/mdb-image.png";
+import NatureSpa from "../images/naturespa-image.png";
+import PeekAZoo from "../images/peekazoo-image.png";
+import StoneStreet from "../images/stonestreet-image.png";
+import SearchWeather from "../images/weather-image.png";
+
 const ImageWithFallback = ({ src, alt, className, style }: any) => {
   const [imgSrc, setImgSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);
@@ -69,53 +76,47 @@ const projects = [
   // Large hero item (top left)
   {
     id: 1,
-    title: "Minimal Portfolio",
-    image:
-      "https://images.unsplash.com/photo-1748483720632-9d385e40c331?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    title: "Find Recipes",
+    image: FindRecipes,
     className: "col-span-1 md:col-span-5 md:col-start-2 mt-12",
   },
   // Medium item (top right)
   {
     id: 2,
-    title: "E-commerce App",
-    image:
-      "https://images.unsplash.com/photo-1759505017950-25e0733b9e68?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    title: "Movies Database",
+    image: MDB,
     className: "col-span-1 md:col-span-4 md:col-start-8 mt-24 p-2",
     speed: -0.06,
   },
   // Wide item (middle, full width)
   {
     id: 3,
-    title: "Dashboard UI",
-    image:
-      "https://images.unsplash.com/photo-1735399976112-17508533c97a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    title: "Spa Booking Website",
+    image: NatureSpa,
     className: "col-span-1 md:col-span-4 md:col-start-3 mt-32",
     parallaxSpeed: 0.15,
   },
   // Medium vertical item (right side)
   {
     id: 4,
-    title: "Creative Agency",
-    image:
-      "https://images.unsplash.com/photo-1762503203754-62c5a0c969d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    title: "Smash Game",
+    image: PeekAZoo,
     className: "col-span-1 md:col-span-6 md:col-start-9 mt-64",
     parallaxSpeed: 0.07,
   },
   // Small square (left side)
   {
     id: 5,
-    title: "Typography",
-    image:
-      "https://images.unsplash.com/photo-1738003667850-a2fb736e31b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    title: "Cafe Website",
+    image: StoneStreet,
     className: "col-span-1 md:col-span-4 md:col-start-2 mt-48 p-3",
     parallaxSpeed: 0.06,
   },
   // Medium horizontal (bottom center)
   {
     id: 6,
-    title: "Mobile Finance",
-    image:
-      "https://images.unsplash.com/photo-1760597371674-c5a412f2ae01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    title: "Search Weather",
+    image: SearchWeather,
     className: "col-span-1 md:col-span-4 md:col-start-8 mt-96",
     parallaxSpeed: 0.05,
   },
