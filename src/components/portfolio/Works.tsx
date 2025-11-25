@@ -78,6 +78,7 @@ const projects = [
     id: 1,
     title: "Find Recipes",
     image: FindRecipes,
+    link: "https://find-recipes-project.netlify.app/",
     className: "col-span-1 md:col-span-5 md:col-start-2 mt-12",
     tags: ["HTML", "CSS", "JavaScript", "Tailwind", "React", "Vibe Coding"],
   },
@@ -434,6 +435,7 @@ const ProjectItem = ({
           </AnimatePresence>
         </div>
       </div>
+
       <div className="text-center inline-block px-4 mx-auto w-full relative z-30">
         <h3
           className="text-lg font-semibold text-gray-900 mt-4"
