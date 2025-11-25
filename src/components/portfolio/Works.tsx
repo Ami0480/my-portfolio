@@ -14,6 +14,17 @@ import PeekAZoo from "../images/peekazoo-image.png";
 import StoneStreet from "../images/stonestreet-image.png";
 import SearchWeather from "../images/weather-image.png";
 
+// Import background images
+
+import pink from "../images/pink.png";
+import mustard from "../images/mustard.png";
+import orange from "../images/orange.png";
+import yellow from "../images/yellow.png";
+import blue from "../images/blue.png";
+import green from "../images/green.png";
+import gray from "../images/gray.png";
+import purple from "../images/purple.png";
+
 const ImageWithFallback = ({ src, alt, className, style }: any) => {
   const [imgSrc, setImgSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,26 +51,15 @@ const ImageWithFallback = ({ src, alt, className, style }: any) => {
   );
 };
 
-const words = [
-  "HTML",
-  "CSS",
-  "React",
-  "Tailwind",
-  "Figma",
-  "Three.js",
-  "Canva",
-  "GSAP",
-  "Vibe Coding",
-];
-
-const colors = [
-  "bg-pink-500 text-white",
-  "bg-purple-500 text-white",
-  "bg-blue-500 text-white",
-  "bg-cyan-500 text-white",
-  "bg-emerald-500 text-white",
-  "bg-amber-500 text-white",
-  "bg-rose-500 text-white",
+const wordBackgrounds = [
+  { word: "HTML", bg: blue },
+  { word: "CSS", bg: gray },
+  { word: "Tailwind", bg: green },
+  { word: "React", bg: yellow },
+  { word: "Figma", bg: purple },
+  { word: "Canva", bg: pink },
+  { word: "Self Built", bg: mustard },
+  { word: "Vibe Coding", bg: orange },
 ];
 
 const positions = [
@@ -73,52 +73,41 @@ const positions = [
 ];
 
 const projects = [
-  // Large hero item (top left)
   {
     id: 1,
     title: "Find Recipes",
     image: FindRecipes,
     className: "col-span-1 md:col-span-5 md:col-start-2 mt-12",
   },
-  // Medium item (top right)
   {
     id: 2,
     title: "Movies Database",
     image: MDB,
     className: "col-span-1 md:col-span-4 md:col-start-8 mt-24 p-2",
-    speed: -0.06,
   },
-  // Wide item (middle, full width)
   {
     id: 3,
     title: "Spa Booking Website",
     image: NatureSpa,
     className: "col-span-1 md:col-span-4 md:col-start-3 mt-32",
-    parallaxSpeed: 0.15,
   },
-  // Medium vertical item (right side)
   {
     id: 4,
     title: "Smash Game",
     image: PeekAZoo,
     className: "col-span-1 md:col-span-6 md:col-start-9 mt-64",
-    parallaxSpeed: 0.07,
   },
-  // Small square (left side)
   {
     id: 5,
     title: "Cafe Website",
     image: StoneStreet,
     className: "col-span-1 md:col-span-4 md:col-start-2 mt-48 p-3",
-    parallaxSpeed: 0.06,
   },
-  // Medium horizontal (bottom center)
   {
     id: 6,
     title: "Search Weather",
     image: SearchWeather,
     className: "col-span-1 md:col-span-4 md:col-start-8 mt-96",
-    parallaxSpeed: 0.05,
   },
 ];
 
@@ -129,91 +118,29 @@ const ProjectItem = ({
   project: any;
   scrollYProgress: MotionValue<number>;
 }) => {
-  // Enhanced parallax with refined speed differences for better visual hierarchy
-  const getParallaxConfig = (className: string, id: number, title?: string) => {
-    // Base speed differences with more pronounced variation
+  const getParallaxConfig = (className: string, id: number) => {
     let baseSpeed = 0.5;
-    if (className.includes("md:col-span-6"))
-      baseSpeed = 0.1; // Largest items move slowest
+    if (className.includes("md:col-span-6")) baseSpeed = 0.1;
     else if (className.includes("md:col-span-5")) baseSpeed = 0.25;
     else if (className.includes("md:col-span-4")) baseSpeed = 0.4;
 
-    // More significant variation based on project ID
     const idVariation = (id % 5) * 0.1;
-
-    // Alternate direction and add some randomness
     const direction = id % 2 === 0 ? 1 : -1;
-
-    // Custom speeds for specific projects
-    if (title === "Minimal Portfolio") {
-      return {
-        speed: 0.15, // Slower speed for better visibility
-        direction: 1, // Consistent upward direction
-        scale: 1.2, // Slightly larger
-      };
-    }
-
-    if (title === "E-commerce App") {
-      return {
-        speed: 0.5, // Medium-fast speed
-        direction: -1,
-        scale: 1.1,
-      };
-    }
-
-    if (title === "Dashboard UI") {
-      return {
-        speed: 0.25, // Medium speed
-        direction: -1, // Opposite direction for contrast
-        scale: 1.1,
-      };
-    }
-
-    if (title === "Creative Agency") {
-      return {
-        speed: 2.5,
-        direction: -1,
-        scale: 1.15,
-      };
-    }
-
-    if (title === "Typography") {
-      return {
-        speed: 0.6, // Medium-fast speed
-        direction: 1,
-        scale: 1.2,
-      };
-    }
-
-    if (title === "Mobile Finance") {
-      return {
-        speed: 0.4, // Medium speed
-        direction: -1,
-        scale: 1.1,
-      };
-    }
 
     return {
       speed: (baseSpeed + idVariation) * 1.5,
       direction,
-      scale: 1 + (1 - baseSpeed) * 0.4,
     };
   };
 
-  const { speed, direction, scale } = getParallaxConfig(
-    project.className,
-    project.id,
-    project.title
-  );
+  const { speed, direction } = getParallaxConfig(project.className, project.id);
 
-  // Parallax movement for cards only (bidirectional)
   const y = useTransform(
     scrollYProgress,
     [0, 0.5, 1],
     [-100 * speed * direction, 0, 100 * speed * direction]
   );
 
-  // Add subtle opacity change based on scroll position
   const opacity = useTransform(
     scrollYProgress,
     [0, 0.3, 0.7, 1],
@@ -222,18 +149,18 @@ const ProjectItem = ({
 
   const [hoverData, setHoverData] = useState<{
     text: string;
-    color: string;
+    bg: string;
     pos: any;
   } | null>(null);
 
   const handleMouseEnter = () => {
-    const randomWord = words[Math.floor(Math.random() * words.length)];
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    const randomBg =
+      wordBackgrounds[Math.floor(Math.random() * wordBackgrounds.length)];
     const randomPos = positions[Math.floor(Math.random() * positions.length)];
 
     setHoverData({
-      text: randomWord,
-      color: randomColor,
+      text: randomBg.word,
+      bg: randomBg.bg,
       pos: randomPos,
     });
   };
@@ -244,18 +171,13 @@ const ProjectItem = ({
 
   return (
     <motion.div
-      style={{
-        y,
-        opacity,
-        zIndex: Math.round(100 * (1 - speed)), // Ensure proper stacking
-      }}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{
         opacity: 1,
         y: 0,
         transition: {
           duration: 0.8,
-          delay: 0.1 * (1 - speed), // Staggered appearance based on size
+          delay: 0.1 * (1 - speed),
         },
       }}
       viewport={{ once: true, margin: "-50px" }}
@@ -267,22 +189,27 @@ const ProjectItem = ({
         scale: 0.98,
         transition: { duration: 0.2 },
       }}
-      className={`group cursor-pointer ${project.className} relative z-20`}
+      className={`group cursor-pointer ${project.className} relative`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 shadow-md hover:shadow-xl transition-all duration-700 relative z-20 will-change-transform transform-gpu">
-        <ImageWithFallback
-          src={project.image}
-          alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
+      <div className="w-full aspect-[4/3] rounded-2xl overflow-visible bg-gray-100 shadow-md hover:shadow-xl transition-all duration-700 relative will-change-transform transform-gpu">
+        <div className="w-full h-full rounded-2xl overflow-hidden">
+          <ImageWithFallback
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+        </div>
 
         <AnimatePresence>
           {hoverData && (
             <div
-              className="absolute z-30 pointer-events-none select-none"
-              style={hoverData.pos}
+              className="absolute pointer-events-none select-none"
+              style={{
+                ...hoverData.pos,
+                zIndex: 9999,
+              }}
             >
               <motion.div
                 initial={{
@@ -294,7 +221,7 @@ const ProjectItem = ({
                 }}
                 animate={{
                   width: "auto",
-                  height: "auto",
+                  height: 100,
                   borderRadius: 20,
                   opacity: 1,
                   scale: 1,
@@ -309,7 +236,12 @@ const ProjectItem = ({
                   scale: 0,
                   transition: { duration: 0.2 },
                 }}
-                className={`${hoverData.color} shadow-lg overflow-hidden flex items-center justify-center`}
+                className="overflow-hidden flex items-center justify-center"
+                style={{
+                  backgroundImage: `url(${hoverData.bg})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
               >
                 <motion.span
                   initial={{ opacity: 0, y: 15 }}
@@ -353,12 +285,10 @@ export const Works = () => {
     offset: ["start end", "end start"],
   });
 
-  // Create a y-offset for the marquee based on scroll
   const marqueeY = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   return (
     <section ref={containerRef} className="min-h-[220vh] relative pt-48 pb-80">
-      {/* Background Marquee that moves with scroll */}
       <div className="absolute top-0 w-full left-0 h-full flex flex-col justify-center z-0 pointer-events-none select-none overflow-hidden">
         <motion.div style={{ y: marqueeY, zIndex: 0 }}>
           <motion.div
