@@ -50,11 +50,9 @@ export const Contact = () => {
             label="Email"
           />
           <SocialLink
-            href="/resume.pdf"
+            href="ami-developer-resume.pdf"
             icon={<FileText size={20} />}
             label="Resume"
-            target="_blank"
-            rel="noopener noreferrer"
           />
 
           <div className="w-px h-6 bg-gray-300 mx-2 hidden md:block"></div>
@@ -87,14 +85,20 @@ const SocialLink = ({
   href,
   icon,
   label,
+  target,
+  rel,
 }: {
   href: string;
   icon: React.ReactNode;
   label: string;
+  target?: string;
+  rel?: string;
 }) => {
   return (
     <motion.a
       href={href}
+      target={target}
+      rel={rel}
       whileHover={{ y: -3, scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
       className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-600 hover:text-pink-500 hover:shadow-md transition-colors border border-gray-100"
