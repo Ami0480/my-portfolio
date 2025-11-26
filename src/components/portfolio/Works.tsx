@@ -86,6 +86,7 @@ const projects = [
     id: 2,
     title: "Movies Database",
     image: MDB,
+    link: "https://movies-database-with-cursor.netlify.app/",
     className: "col-span-1 md:col-span-4 md:col-start-8 mt-24 p-2",
     tags: ["HTML", "CSS", "JavaScript", "Tailwind", "React", "Vibe Coding"],
   },
@@ -93,6 +94,7 @@ const projects = [
     id: 3,
     title: "Spa Booking Website",
     image: NatureSpa,
+    link: "https://naturespa-tailwind.netlify.app/",
     className: "col-span-1 md:col-span-4 md:col-start-3 mt-32",
     tags: [
       "HTML",
@@ -109,6 +111,7 @@ const projects = [
     id: 4,
     title: "Smash Game",
     image: PeekAZoo,
+    link: "https://peek-a-zoo.netlify.app/",
     className: "col-span-1 md:col-span-6 md:col-start-9 mt-64",
     tags: ["HTML", "CSS", "JavaScript", "Self Built"],
   },
@@ -116,6 +119,7 @@ const projects = [
     id: 5,
     title: "Cafe Website",
     image: StoneStreet,
+    link: "https://stonestreet-cafe.netlify.app/",
     className: "col-span-1 md:col-span-4 md:col-start-2 mt-48 p-3",
     tags: [
       "HTML",
@@ -132,6 +136,7 @@ const projects = [
     id: 6,
     title: "Search Weather",
     image: SearchWeather,
+    link: "https://simple-weather-search.netlify.app/",
     className: "col-span-1 md:col-span-4 md:col-start-8 mt-96",
     tags: [
       "HTML",
@@ -311,7 +316,7 @@ const ProjectItem = ({
     }, 1800);
   };
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!isHovering) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
@@ -328,7 +333,7 @@ const ProjectItem = ({
     }
   };
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
     setIsHovering(true);
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -349,7 +354,8 @@ const ProjectItem = ({
   };
 
   return (
-    <motion.div
+    <motion.a
+      href={project.link}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{
         opacity: 1,
@@ -368,7 +374,7 @@ const ProjectItem = ({
         scale: 0.98,
         transition: { duration: 0.2 },
       }}
-      className={`group cursor-pointer ${project.className} relative`}
+      className={`group cursor-pointer ${project.className} relative block`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
@@ -444,7 +450,7 @@ const ProjectItem = ({
           {project.title}
         </h3>
       </div>
-    </motion.div>
+    </motion.a>
   );
 };
 
