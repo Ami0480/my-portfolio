@@ -10,7 +10,7 @@ import {
 import FindRecipes from "../images/findrecipes-image.png";
 import MDB from "../images/mdb-image.png";
 import NatureSpa from "../images/naturespa-image.png";
-import PeekAZoo from "../images/peekazoo-image.png";
+import Diary from "../images/diary-image.png";
 import StoneStreet from "../images/stonestreet-image.png";
 import SearchWeather from "../images/weather-image.png";
 
@@ -61,6 +61,7 @@ const wordBackgrounds = [
   { word: "Canva", bg: pink },
   { word: "Self Built", bg: mustard },
   { word: "Vibe Coding", bg: orange },
+  { word: "Supabase", bg: orange },
 ];
 
 const positions = [
@@ -109,11 +110,11 @@ const projects = [
   },
   {
     id: 4,
-    title: "Smash Game",
-    image: PeekAZoo,
-    link: "https://peek-a-zoo.netlify.app/",
+    title: "Diary Website",
+    image: Diary,
+    link: "https://dear-today.netlify.app/",
     className: "col-span-1 md:col-span-6 md:col-start-9 mt-64",
-    tags: ["HTML", "CSS", "JavaScript", "Self Built"],
+    tags: ["HTML", "CSS", "JavaScript", "Self Built", "Supabase"],
   },
   {
     id: 5,
