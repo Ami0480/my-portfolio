@@ -95,7 +95,7 @@ const projects = [
     id: 3,
     title: "Spa Booking Website",
     image: NatureSpa,
-    link: "https://naturespa-tailwind.netlify.app/",
+    link: "https://naturespa-website.netlify.app/",
     className: "col-span-1 md:col-span-4 md:col-start-3 mt-32",
     tags: [
       "HTML",
